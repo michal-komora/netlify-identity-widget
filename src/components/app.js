@@ -154,6 +154,7 @@ class App extends Component {
     console.log("I am gonna try to render providers");
     const { store } = this.props;
     
+    console.log(store)
 
     if (!(store.gotrue && store.settings)) {
       console.log("!(store.gotrue && store.settings) == true")
@@ -179,6 +180,8 @@ class App extends Component {
       "BitBucket",
       "SAML"
     ].filter((p) => store.settings.external[p.toLowerCase()]);
+
+    console.log(providers)
 
     return providers.length ? (
       <Providers

@@ -150,17 +150,25 @@ class App extends Component {
   }
 
   renderProviders() {
+
+    console.log("I am gonna try to render providers");
     const { store } = this.props;
+    
 
     if (!(store.gotrue && store.settings)) {
+      console.log("!(store.gotrue && store.settings) == true")
       return null;
     }
     if (store.modal.page === "signup" && store.settings.disable_signup) {
+      console.log(`store.modal.page === "signup" && store.settings.disable_signup`)
       return null;
     }
     const page = pages[store.modal.page] || {};
 
+    console.log(page.providers)
+
     if (!page.providers) {
+      console.log("!page.providers")
       return null;
     }
 

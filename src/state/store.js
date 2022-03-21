@@ -104,6 +104,8 @@ store.login = action(function login(email, password) {
 
 store.externalLogin = action(function externalLogin(provider) {
   // store.startAction();
+  console.log(provider)
+  console.log(store.invite_token)
   store.error = null;
   store.message = null;
   const url = store.invite_token

@@ -108,8 +108,8 @@ store.login = action(function login(email, password) {
 
 store.externalLogin = action(function externalLogin(provider) {
   // store.startAction();
-  console.log(provider)
-  console.log(store.invite_token)
+  console.log(provider)           // github
+  console.log(store.invite_token) // null
   store.error = null;
   store.message = null;
   if(store.invite_token){
@@ -132,6 +132,8 @@ store.completeExternalLogin = action(function completeExternalLogin(params) {
   store.gotrue
     .createUser(params, store.remember)
     .then((user) => {
+      console.log("User is created")
+      console.log(user)
       store.user = user;
       store.modal.page = "user";
       store.saving = false;

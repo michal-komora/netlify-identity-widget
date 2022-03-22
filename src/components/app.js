@@ -64,7 +64,7 @@ class App extends Component {
   handleSiteURL = (url) => this.props.store.setSiteURL(url);
   clearSiteURL = (url) => this.props.store.clearSiteURL();
   clearStoreError = () => this.props.store.setError();
-  handleExternalLogin = (provider) => this.props.store.externalLogin(provider);
+  handleExternalLogin = (provider) => { console.log("Handling external login from app.js"); this.props.store.externalLogin(provider);}
   handleUser = ({ name, email, password }) => {
     const { store } = this.props;
 
@@ -181,7 +181,10 @@ class App extends Component {
         labels={store.settings.external_labels || {}}
         onLogin={this.handleExternalLogin}
         t={store.translate}
-      />
+      >
+        <p>Hi fella</p>
+      </Providers>
+      
     ) : null;
   }
 

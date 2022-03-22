@@ -59,6 +59,7 @@ const netlifyIdentity = {
   },
   refresh(force) {
     if (!store.gotrue) {
+      console.log("Gonna openModal login")
       store.openModal("login");
     }
     return store.gotrue.currentUser().jwt(force);
@@ -158,6 +159,7 @@ observe(store, "siteURL", () => {
 
 observe(store, "user", () => {
   if (store.user) {
+    console.log("Gonna trigger login")
     trigger("login", store.user);
   } else {
     trigger("logout");
@@ -217,6 +219,7 @@ function runRoutes() {
     }
     document.location.hash = "";
     store.openModal("login");
+    console.log(`completeExternalLogin(${params})`)
     store.completeExternalLogin(params);
   }
 }

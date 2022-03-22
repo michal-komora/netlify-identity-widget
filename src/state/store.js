@@ -23,21 +23,28 @@ const store = observable({
 });
 
 store.setNamePlaceholder = action(function setNamePlaceholder(namePlaceholder) {
+  console.log("store.js: store.setNamePlaceholder is called")
+  console.log(namePlaceholder)
   store.namePlaceholder = namePlaceholder;
 });
 
 store.startAction = action(function startAction() {
+  console.log("store.js: store.startAction is called")
   store.saving = true;
   store.error = null;
   store.message = null;
 });
 
 store.setError = action(function setError(err) {
+  console.log("store.js: store.setError is called")
   store.saving = false;
   store.error = err;
 });
 
 store.init = action(function init(gotrue, reloadSettings) {
+  console.log("store.js: store.init is called")
+  console.log(gotrue)
+  console.log(reloadSettings)
   if (gotrue) {
     store.gotrue = gotrue;
     store.user = gotrue.currentUser();
@@ -51,6 +58,7 @@ store.init = action(function init(gotrue, reloadSettings) {
 });
 
 store.loadSettings = action(function loadSettings() {
+  console.log("store.js: store.loadSettings is called")
   if (store.settings) {
     return;
   }
@@ -71,21 +79,26 @@ store.loadSettings = action(function loadSettings() {
 });
 
 store.setIsLocal = action(function setIsLocal(isLocal) {
+  console.log("store.js: store.setIsLocal is called")
+  console.log(isLocal)
   store.isLocal = isLocal;
 });
 
 store.setSiteURL = action(function setSiteURL(url) {
+  console.log("store.js: store.setSiteURL is called")
+  console.log(url)
   store.siteURL = url;
 });
 
 store.clearSiteURL = action(function clearSiteURL() {
+  console.log("store.js: store.clearSiteURL is called")
   store.gotrue = null;
   store.siteURL = null;
   store.settings = null;
 });
 
 store.login = action(function login(email, password) {
-  console.log("Gonna start login action")
+  console.log("store.js: store.login is called")
   store.startAction();
 
   return store.gotrue
@@ -108,6 +121,7 @@ store.login = action(function login(email, password) {
 
 store.externalLogin = action(function externalLogin(provider) {
   // store.startAction();
+  console.log("store.js: store.externalLogin is called")
   console.log(provider)           // github
   console.log(store.invite_token) // null
   store.error = null;
@@ -128,6 +142,8 @@ store.externalLogin = action(function externalLogin(provider) {
 });
 
 store.completeExternalLogin = action(function completeExternalLogin(params) {
+  console.log("store.js: store.completeExternalLogin is called")
+  console.log(params)
   store.startAction();
   store.gotrue
     .createUser(params, store.remember)
@@ -142,6 +158,10 @@ store.completeExternalLogin = action(function completeExternalLogin(params) {
 });
 
 store.signup = action(function signup(name, email, password) {
+  console.log("store.js: store.signup is called")
+  console.log(name)
+  console.log(email)
+  console.log(password)
   store.startAction();
   return store.gotrue
     .signup(email, password, { full_name: name })
@@ -159,6 +179,7 @@ store.signup = action(function signup(name, email, password) {
 });
 
 store.logout = action(function logout() {
+  console.log("store.js: store.logout is called")
   if (store.user) {
     store.startAction();
     return store.user
@@ -178,6 +199,8 @@ store.logout = action(function logout() {
 });
 
 store.updatePassword = action(function updatePassword(password) {
+  console.log("store.js: store.updatePassword is called")
+  console.log(password)
   store.startAction();
   const user = store.recovered_user || store.user;
   user
@@ -192,6 +215,8 @@ store.updatePassword = action(function updatePassword(password) {
 });
 
 store.acceptInvite = action(function acceptInvite(password) {
+  console.log("store.js: store.acceptInvite is called")
+  console.log(password)
   store.startAction();
   store.gotrue
     .acceptInvite(store.invite_token, password, store.remember)
@@ -205,6 +230,7 @@ store.acceptInvite = action(function acceptInvite(password) {
 });
 
 store.doEmailChange = action(function doEmailChange() {
+  console.log("store.js: store.doEmailChange is called")
   store.startAction();
   return store.user
     .update({ email_change_token: store.email_change_token })
@@ -220,6 +246,9 @@ store.doEmailChange = action(function doEmailChange() {
 });
 
 store.verifyToken = action(function verifyToken(type, token) {
+  console.log("store.js: store.verifyToken is called")
+  console.log(type)
+  console.log(token)
   const gotrue = store.gotrue;
   store.modal.isOpen = true;
 
@@ -278,6 +307,8 @@ store.verifyToken = action(function verifyToken(type, token) {
 });
 
 store.requestPasswordRecovery = action(function requestPasswordRecovery(email) {
+  console.log("store.js: store.requestPasswordRecovery is called")
+  console.log(email)
   store.startAction();
   store.gotrue
     .requestPasswordRecovery(email)
@@ -291,11 +322,14 @@ store.requestPasswordRecovery = action(function requestPasswordRecovery(email) {
 });
 
 store.openModal = action(function open(page) {
+  console.log("store.js: store.openModal is called")
+  console.log(page)
   store.modal.page = page;
   store.modal.isOpen = true;
 });
 
 store.closeModal = action(function close() {
+  console.log("store.js: store.closeModal is called")
   store.modal.isOpen = false;
   store.error = null;
   store.message = null;
@@ -303,6 +337,7 @@ store.closeModal = action(function close() {
 });
 
 store.translate = action(function translate(key) {
+  console.log("store.js: store.translate is called")
   return getTranslation(key, store.locale);
 });
 

@@ -7,6 +7,9 @@ import UserForm from "./forms/user";
 import Providers from "./forms/providers";
 import Message from "./forms/message";
 
+
+console.log("\n\n====================app====================\n\n")
+
 const pagesWithHeader = { login: true, signup: true };
 const pages = {
   login: {

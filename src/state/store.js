@@ -1,6 +1,9 @@
 import { observable, action } from "mobx";
 import { defaultLocale, getTranslation } from "../translations";
 
+
+console.log("\n\n====================store====================\n\n")
+
 const store = observable({
   user: null,
   recovered_user: null,
@@ -337,7 +340,6 @@ store.closeModal = action(function close() {
 });
 
 store.translate = action(function translate(key) {
-  console.log("store.js: store.translate is called")
   return getTranslation(key, store.locale);
 });
 

@@ -7,8 +7,12 @@ import store from "./state/store";
 import Controls from "./components/controls";
 import modalCSS from "./components/modal.css";
 
+
+console.log("\n\n====================netlify-identity====================\n\n")
+
 const callbacks = {};
 function trigger(callback) {
+  console.log(`trigger: ${callback}`)
   const cbMap = callbacks[callback] || new Set();
   Array.from(cbMap.values()).forEach((cb) => {
     cb.apply(cb, Array.prototype.slice.call(arguments, 1));
@@ -23,6 +27,7 @@ const validActions = {
 
 const netlifyIdentity = {
   on: (event, cb) => {
+    console.log(`netlifyIdentity.on(${event})`)
     callbacks[event] = callbacks[event] || new Set();
     callbacks[event].add(cb);
   },
@@ -36,6 +41,7 @@ const netlifyIdentity = {
     }
   },
   open: (action) => {
+    console.log(`netlifyIdentity.open(${action})`)
     action = action || "login";
     if (!validActions[action]) {
       throw new Error(`Invalid action for open: ${action}`);
@@ -128,6 +134,7 @@ const iframeStyle = {
 };
 
 observe(store.modal, "isOpen", () => {
+  console.log(`store.modal.isOpen = ${store.modal.isOpen}`)
   if (!store.settings) {
     console.log("calling loadSettings from observe(store.modal, isOpen) - (netlify-identity.js)")
     store.loadSettings();
@@ -144,6 +151,7 @@ observe(store.modal, "isOpen", () => {
 });
 
 observe(store, "siteURL", () => {
+  console.log(`store.siteURL = ${store.siteURL}`)
   if (store.siteURL === null || store.siteURL === undefined) {
     localStorage.removeItem("netlifySiteURL");
   } else {
@@ -160,6 +168,7 @@ observe(store, "siteURL", () => {
 });
 
 observe(store, "user", () => {
+  console.log(`store.user = ${store.user}`)
   if (store.user) {
     console.log("Gonna trigger login")
     trigger("login", store.user);
@@ -169,6 +178,7 @@ observe(store, "user", () => {
 });
 
 observe(store, "gotrue", () => {
+  console.log(`store.gotrue = ${store.gotrue}`)
   store.gotrue && trigger("init", store.gotrue.currentUser());
 });
 
@@ -181,6 +191,7 @@ const errorRoute = /error=access_denied&error_description=403/;
 const accessTokenRoute = /access_token=/;
 
 function runRoutes() {
+  console.log("runRoutes")
   const hash = (document.location.hash || "").replace(/^#\/?/, "");
   if (!hash) {
     return;
@@ -228,6 +239,7 @@ function runRoutes() {
 }
 
 function init(options = {}) {
+  console.log("init")
   const { APIUrl, logo = true, namePlaceholder, locale } = options;
 
   if (locale) {
@@ -243,6 +255,7 @@ function init(options = {}) {
       el.getAttribute("data-netlify-identity-menu") === null
         ? "button"
         : "menu";
+    console.log("rendering controls")
     render(
       <Provider store={store}>
         <Controls mode={mode} text={el.innerText.trim()} />
@@ -251,7 +264,7 @@ function init(options = {}) {
       controls
     );
   });
-  console.log("calling init from init(netlify-identity.js)")
+  console.log("calling store.init from init(netlify-identity.js)")
   store.init(instantiateGotrue(APIUrl));
   store.modal.logo = logo;
   store.setNamePlaceholder(namePlaceholder);
@@ -262,6 +275,7 @@ function init(options = {}) {
     const styles = iframe.contentDocument.createElement("style");
     styles.innerHTML = modalCSS.toString();
     iframe.contentDocument.head.appendChild(styles);
+    console.log("rendering app")
     root = render(
       <Provider store={store}>
         <App />

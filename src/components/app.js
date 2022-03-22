@@ -70,6 +70,7 @@ class App extends Component {
 
     switch (store.modal.page) {
       case "login":
+        console.log("Starting login: " + store.modal)
         store.login(email, password);
         break;
       case "signup":

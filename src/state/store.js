@@ -85,11 +85,15 @@ store.clearSiteURL = action(function clearSiteURL() {
 });
 
 store.login = action(function login(email, password) {
+  console.log("Gonna start login action")
   store.startAction();
+
   return store.gotrue
     .login(email, password, store.remember)
     .then(
       action((user) => {
+        console.log(`store.gotrue.login(${email}, ${password}, ${store.remember})`)
+        console.log(`user: ${user}`)
         store.user = user;
         store.modal.page = "user";
         store.invite_token = null;
@@ -108,6 +112,15 @@ store.externalLogin = action(function externalLogin(provider) {
   console.log(store.invite_token)
   store.error = null;
   store.message = null;
+  if(store.invite_token){
+    console.log("Accept Invite External Url")
+    console.log(store.gotrue.acceptInviteExternalUrl)
+    console.log(store.gotrue.acceptInviteExternalUrl(provider, store.invite_token))
+  } else {
+    console.log("Login External Url")
+    console.log(store.gotrue.loginExternalUrl)
+    console.log(store.gotrue.loginExternalUrl(provider))
+  }
   const url = store.invite_token
     ? store.gotrue.acceptInviteExternalUrl(provider, store.invite_token)
     : store.gotrue.loginExternalUrl(provider);

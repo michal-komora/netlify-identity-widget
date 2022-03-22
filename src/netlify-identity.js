@@ -129,6 +129,7 @@ const iframeStyle = {
 
 observe(store.modal, "isOpen", () => {
   if (!store.settings) {
+    console.log("calling loadSettings from observe(store.modal, isOpen) - (netlify-identity.js)")
     store.loadSettings();
   }
   setStyle(iframe, {
@@ -154,6 +155,7 @@ observe(store, "siteURL", () => {
     const siteUrl = store.siteURL.replace(/\/$/, "");
     apiUrl = `${siteUrl}/.netlify/identity`;
   }
+  console.log("calling init from observe(store, siteURL) - (netlify-identity.js)")
   store.init(instantiateGotrue(apiUrl), true);
 });
 
@@ -219,7 +221,8 @@ function runRoutes() {
     }
     document.location.hash = "";
     store.openModal("login");
-    console.log(`completeExternalLogin(${params})`)
+    console.log("calling completeExternalLogin from runRoutes(netlify-identity.js)")
+    console.log(params)
     store.completeExternalLogin(params);
   }
 }
@@ -248,7 +251,7 @@ function init(options = {}) {
       controls
     );
   });
-
+  console.log("calling init from init(netlify-identity.js)")
   store.init(instantiateGotrue(APIUrl));
   store.modal.logo = logo;
   store.setNamePlaceholder(namePlaceholder);
